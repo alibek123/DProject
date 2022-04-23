@@ -1,5 +1,3 @@
-from abc import ABC
-
 from rest_framework import serializers
 from .models import *
 from django.contrib.auth import authenticate
@@ -17,7 +15,6 @@ class UserSerializer(serializers.ModelSerializer):
         user.set_password(password)
         user.save()
         return user
-
 
 
 class LoginSerializer(serializers.Serializer):

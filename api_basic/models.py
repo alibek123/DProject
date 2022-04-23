@@ -149,5 +149,8 @@ class OrderItem(models.Model):
     )
     quantity = models.PositiveIntegerField(null=True, blank=True)
 
+    def __str__(self):
+        return f'{self.meal.name}: {self.quantity} шт'
+
     def __unicode__(self):
         return '%s: %s' % (self.meal.name, self.quantity)
