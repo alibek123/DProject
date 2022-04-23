@@ -237,8 +237,8 @@ class OrderViewSet(viewsets.ModelViewSet):
         for cart_item in cart.items.all():
             if cart_item.meal.available_inventory - cart_item.quantity < 0:
                 raise serializers.ValidationError(
-                    'We do not have enough inventory of ' + str(cart_item.meal.title) + \
-                    'to complete your purchase. Sorry, we will restock soon'
+                    'У нас не хватает ' + str(cart_item.meal.title) + \
+                    'Скоро будет поступление'
                 )
 
         # find the order total using the quantity of each cart item and the product's price

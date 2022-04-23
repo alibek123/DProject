@@ -110,6 +110,9 @@ class CartItem(models.Model):
     )
     quantity = models.PositiveIntegerField(default=1, null=True, blank=True)
 
+    def __str__(self):
+        return f'{self.meal.name}: {self.quantity}'
+
     def __unicode__(self):
         return '%s: %s' % (self.meal.name, self.quantity)
 
