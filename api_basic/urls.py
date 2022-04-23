@@ -16,9 +16,5 @@ urlpatterns = [
     path('meals/<slug:category_slug>/<slug:meal_slug>/', MealDetails.as_view()),
     path('meals/<slug:category_slug>/', CategoryDetail.as_view()),
     re_path(r'^', include(router.urls)),
-    # path('carts/', CartViewSet.as_view()),
-    # path('cart_items/', CartItemViewSet.as_view()),
-    # path('orders/', OrderViewSet.as_view()),
-    # path('order_items/', OrderItemViewSet.as_view()),
 
 ]

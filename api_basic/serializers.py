@@ -19,6 +19,7 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 
+
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(
         label="Username",

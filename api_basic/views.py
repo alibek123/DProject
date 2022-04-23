@@ -101,23 +101,26 @@ class CartViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows carts to be viewed or edited.
     """
-    queryset = Cart.objects.all()
+    queryset = Cart.objects.all().order_by('-id')
     serializer_class = CartSerializer
+
+    def get_object(self, customer_id):
+        try:
+            return Cart.objects.get_or_create(customer_id=customer_id)
+        except Meal.DoesNotExist:
+            return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+
+    def get_queryset(self):
+        user_id = self.request.user.id
+        queryset = self.queryset.filter(customer_id=user_id)
+        return queryset
 
     @action(methods=['post', 'put'], detail=True)  # вместо detail_route
     def add_to_cart(self, request, pk=None):
-        """Add an item to a user's cart.
 
-        Adding to cart is disallowed if there is not enough inventory for the
-        product available. If there is, the quantity is increased on an existing
-        cart item or a new cart item is created with that quantity and added
-        to the cart.
+        cart = self.get_object(
+            self.request.user.id)  # Cart.objects.get_or_create(customer=self.request.user)  # customer_id=self.request.user.id
 
-        Return the updated cart.
-
-        """
-
-        cart = self.get_object()
         try:
             meal = Meal.objects.get(
                 pk=request.data["id"]
@@ -218,10 +221,6 @@ class OrderViewSet(viewsets.ModelViewSet):
         suggestions. For example, what they have put in their cart previously,
         what other similar products might she/he like, etc.
 
-        Parameters
-        ----------
-        serializer: OrderSerialiazer
-            Serialized representation of Order we are creating.
 
         """
         try:
