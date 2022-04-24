@@ -35,13 +35,9 @@ class LoginView(APIView):
 class MealList(ListAPIView):
     serializer_class = MealSerializer
     queryset = Meal.objects.all()
-    filter_backends = [SearchFilter]
-    search_fields = ['name', 'price']
 
 
 class MealAPIView(APIView):
-    # filter_backends = [SearchFilter]
-    # search_fields = ['name', 'price']
 
     def get(self, request):
         meals = Meal.objects.all()
@@ -144,7 +140,7 @@ class CartViewSet(viewsets.ModelViewSet):
     @action(methods=['post', 'put'], detail=True)  # вместо detail_route
     def remove_from_cart(self, request, pk=None):
         # Удаляет по одному
-        cart = self.get_object(self.request.user.id)
+        cart = Cart.objects.get(customer=self.request.user)
         try:
             meal = Meal.objects.get(
                 pk=request.data.get('id')

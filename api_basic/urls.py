@@ -14,6 +14,9 @@ make_order = OrderViewSet.as_view({
 add_to_cart = CartViewSet.as_view({
     'put': 'add_to_cart'
 })
+remove_from_cart = CartViewSet.as_view({
+    'put': 'remove_from_cart'
+})
 
 urlpatterns = [
     path('register/', UserCreate.as_view(), name='registration'),
@@ -21,6 +24,7 @@ urlpatterns = [
     path('meals/', MealAPIView.as_view()),
     path('orders/make_order/', make_order),
     path('carts/add_to_cart/', add_to_cart),
+    path('carts/remove_from_cart/', remove_from_cart),
     # path('meals/search/', views.search),
     path('meals/<slug:category_slug>/<slug:meal_slug>/', MealDetails.as_view()),
     path('meals/<slug:category_slug>/', CategoryDetail.as_view()),
